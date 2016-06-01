@@ -152,6 +152,10 @@ fi
         m_error "osm2pgsql error"
     fi
 
+#------------------------------------------------------------------------------
+# The lockfile is removed before we expire tiles because that is something that
+# can be done in parallel with further processing.
+#------------------------------------------------------------------------------
     freelock "$LOCK_FILE"
 
     m_ok "expiring tiles"
@@ -162,6 +166,7 @@ fi
 # $EXPIRY_MAXZOOM were dirtied.  We currently re-render 
 # tiles >= $EXPIRY_MINZOOM and < $EXPIRY_DELETEFROM, and 
 # delete >= $EXPIRY_DELETEFROM and <= $EXPIRY_MAXZOOM.
+# The default path to renderd.sock is fixed.
 #------------------------------------------------------------------------------
     if ! render_expired --map=ajt --min-zoom=$EXPIRY_MINZOOM --delete-from=$EXPIRY_DELETEFROM --max-zoom=$EXPIRY_MAXZOOM -s /var/run/renderd/renderd.sock < "$EXPIRY_FILE.$$" 2>&1 | tail -8 >> "$EXPIRYLOG"; then
         m_info "Expiry failed"
