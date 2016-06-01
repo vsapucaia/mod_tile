@@ -2,11 +2,22 @@
 
 set -e
 
-#*************************************************************************
-#*************************************************************************
+#------------------------------------------------------------------------------
+# AJT - change directory to mod_tile directory so that we can run replag
+# and other things directly from this script when run from cron.
+# Change the actual location to wherever installed locally.
+#------------------------------------------------------------------------------
+export PATH=.:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+cd /home/ajtown/src/mod_tile/
+
+#------------------------------------------------------------------------------
+# The OSM2PGSQL_OPTIONS here only need setting if a tag transform script is
+# in use.  See https://github.com/SomeoneElseOSM/SomeoneElse-style and
+# http://wiki.openstreetmap.org/wiki/User:SomeoneElse/Ubuntu_1404_tileserver_load
+#------------------------------------------------------------------------------
 OSMOSIS_BIN=osmosis
 OSM2PGSQL_BIN=osm2pgsql
-OSM2PGSQL_OPTIONS=
+OSM2PGSQL_OPTIONS="--tag-transform-script /home/ajtown/data/SomeoneElse-style/style.lua"
 #OSM2PGSQL_OPTIONS="--flat-nodes /path/to/flatnodes --hstore"
 
 BASE_DIR=/var/lib/mod_tile
@@ -23,8 +34,17 @@ PGSQLLOG=$LOG_DIR/osm2pgsql.log
 EXPIRYLOG=$LOG_DIR/expiry.log
 RUNLOG=$LOG_DIR/run.log
 
-EXPIRY_MINZOOM=10
-EXPIRY_MAXZOOM=18
+#------------------------------------------------------------------------------
+# The tile expiry section below can re-render, delete or dirty expired tiles.
+# By default, tiles between EXPIRY_MINZOOM and EXPIRY_MAXZOOM are rerendered.
+# "render_expired" can optionally delete (and/or dirty) tiles above a certail
+# threshold rather than rendering them.
+# Here we rerender tiles between zoom levels 13 and 17 and delete between 18
+# and 20.
+#------------------------------------------------------------------------------
+EXPIRY_MINZOOM=13
+EXPIRY_DELETEFROM=18
+EXPIRY_MAXZOOM=20
 
 #*************************************************************************
 #*************************************************************************
@@ -89,6 +109,16 @@ else
         exit 2
     fi
 
+# -----------------------------------------------------------------------------
+# Add disk space check from https://github.com/zverik/regional
+# -----------------------------------------------------------------------------
+MIN_DISK_SPACE_MB=500
+
+if `python -c "import os, sys; st=os.statvfs('$BASE_DIR'); sys.exit(1 if st.f_bavail*st.f_frsize/1024/1024 > $MIN_DISK_SPACE_MB else 0)"`; then
+    m_info "there is less than $MIN_DISK_SPACE_MB MB left"
+    exit 4
+fi
+
     seq=`cat $WORKOSM_DIR/state.txt | grep sequenceNumber | cut -d= -f2`
 
     m_ok "start import from seq-nr $seq, replag is `osmosis-db_replag -h`"
@@ -100,16 +130,40 @@ else
         m_error "Osmosis error"
     fi
     
+# -----------------------------------------------------------------------------
+# Add trim_osc.py call from https://github.com/zverik/regional
+# The parameters passed correspond to the middle of England and Wales, and
+# to the data that was originally loaded.
+# -----------------------------------------------------------------------------
+m_ok "filtering diff"
+# if ! /home/ajtown/src/regional/trim_osc.py -d gis -b -4.3185 51.4224 -0.2010 54.2596 -z $CHANGE_FILE $CHANGE_FILE 1>&2 2>> "$RUNLOG"; then
+if ! /home/ajtown/src/regional/trim_osc.py -d gis -b -5.55 51.42 1.81 54.85 -z $CHANGE_FILE $CHANGE_FILE 1>&2 2>> "$RUNLOG"; then
+    m_error "Trim_osc error"
+fi
+
     m_ok "importing diff"
-    EXPIRY_METAZOOM=`expr $EXPIRY_MAXZOOM - 3`
-    if ! $OSM2PGSQL_BIN -a --slim -e$EXPIRY_METAZOOM:$EXPIRY_METAZOOM $OSM2PGSQL_OPTIONS -o "$EXPIRY_FILE.$$" $CHANGE_FILE 1>&2 2> "$PGSQLLOG"; then
+#------------------------------------------------------------------------------
+# Previously openstreetmap-tiles-update-expire tried to dirty layer
+# "$EXPIRY_MAXZOOM - 3" (which was 15) only.  Instead we write all expired
+# tiles in range to the list (note the "-" rather than ":" in the "-e"
+# parameter).
+#------------------------------------------------------------------------------
+    if ! $OSM2PGSQL_BIN -a --slim -e$EXPIRY_MINZOOM-$EXPIRY_MAXZOOM $OSM2PGSQL_OPTIONS -o "$EXPIRY_FILE.$$" $CHANGE_FILE 1>&2 2> "$PGSQLLOG"; then
         m_error "osm2pgsql error"
     fi
 
     freelock "$LOCK_FILE"
 
     m_ok "expiring tiles"
-    if ! render_expired --min-zoom=$EXPIRY_MINZOOM --max-zoom=$EXPIRY_MAXZOOM --touch-from=$EXPIRY_MINZOOM -s /var/run/renderd.sock < "$EXPIRY_FILE.$$" 2>&1 | tail -8 >> "$EXPIRYLOG"; then
+#------------------------------------------------------------------------------
+# When expiring tiles we need to define the style sheet if it's not "default".
+# in this case it's "ajt".
+# Previously all tiles on the "dirty" list between $EXPIRY_MINZOOM and 
+# $EXPIRY_MAXZOOM were dirtied.  We currently re-render 
+# tiles >= $EXPIRY_MINZOOM and < $EXPIRY_DELETEFROM, and 
+# delete >= $EXPIRY_DELETEFROM and <= $EXPIRY_MAXZOOM.
+#------------------------------------------------------------------------------
+    if ! render_expired --map=ajt --min-zoom=$EXPIRY_MINZOOM --delete-from=$EXPIRY_DELETEFROM --max-zoom=$EXPIRY_MAXZOOM -s /var/run/renderd/renderd.sock < "$EXPIRY_FILE.$$" 2>&1 | tail -8 >> "$EXPIRYLOG"; then
         m_info "Expiry failed"
     fi
 
