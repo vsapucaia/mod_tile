@@ -13,15 +13,15 @@
 # report_render_age.sh /var/lib/syslog.1
 # -----------------------------------------------------------------------------
 
-echo "Tiles rendered in selected syslog"
-echo "--------------------------------"
-
 if [ -n "$1" ]
 then
 export syslog_to_process=$1
 else
 export syslog_to_process=/var/log/syslog
 fi
+
+echo "Tiles rendered in $syslog_to_process"
+echo "----------------------------------"
 
 echo "0 days           " `grep " age " $syslog_to_process | sed "s/.*age//" | sed "s/\....days/ days/" | grep " 0 " | wc -l`
 echo "1 day            " `grep " age " $syslog_to_process | sed "s/.*age//" | sed "s/\....days/ days/" | grep " 1 " | wc -l`
