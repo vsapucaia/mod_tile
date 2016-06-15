@@ -39,11 +39,11 @@ RUNLOG=$LOG_DIR/run.log
 # By default, tiles between EXPIRY_MINZOOM and EXPIRY_MAXZOOM are rerendered.
 # "render_expired" can optionally delete (and/or dirty) tiles above a certail
 # threshold rather than rendering them.
-# Here we expire (but don't immediately rerender) tiles between zoom levels 
-# 13 and 17 and delete between 18 and 20.
+# Here we rerender tiles between zoom levels 13 and 17 and delete between 18
+# and 20.
 #------------------------------------------------------------------------------
 EXPIRY_MINZOOM=13
-EXPIRY_TOUCHFROM=13
+EXPIRY_TOUCHFROM=21
 EXPIRY_DELETEFROM=18
 EXPIRY_MAXZOOM=20
 
@@ -171,8 +171,10 @@ fi
 # tiles >= $EXPIRY_MINZOOM and < $EXPIRY_DELETEFROM, expiry from 14 and 
 # delete >= $EXPIRY_DELETEFROM and <= $EXPIRY_MAXZOOM.
 # The default path to renderd.sock is fixed.
+#
+# Note no --touch-from=$EXPIRY_TOUCHFROM 
 #------------------------------------------------------------------------------
-    if ! render_expired --map=ajt --min-zoom=$EXPIRY_MINZOOM --touch-from=$EXPIRY_TOUCHFROM --delete-from=$EXPIRY_DELETEFROM --max-zoom=$EXPIRY_MAXZOOM -s /var/run/renderd/renderd.sock < "$EXPIRY_FILE.$$" 2>&1 | tail -8 >> "$EXPIRYLOG"; then
+    if ! render_expired --map=ajt --min-zoom=$EXPIRY_MINZOOM --delete-from=$EXPIRY_DELETEFROM --max-zoom=$EXPIRY_MAXZOOM -s /var/run/renderd/renderd.sock < "$EXPIRY_FILE.$$" 2>&1 | tail -8 >> "$EXPIRYLOG"; then
         m_info "Expiry failed"
     fi
 
