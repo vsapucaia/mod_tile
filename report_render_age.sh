@@ -31,6 +31,17 @@ echo "4 days           " `grep " age " $syslog_to_process | sed "s/.*age//" | se
 echo "5 days           " `grep " age " $syslog_to_process | sed "s/.*age//" | sed "s/\....days/ days/" | grep " 5 " | wc -l`
 echo "6 days           " `grep " age " $syslog_to_process | sed "s/.*age//" | sed "s/\....days/ days/" | grep " 6 " | wc -l`
 echo "7 days           " `grep " age " $syslog_to_process | sed "s/.*age//" | sed "s/\....days/ days/" | grep " 7 " | wc -l`
+echo "8 days           " `grep " age " $syslog_to_process | sed "s/.*age//" | sed "s/\....days/ days/" | grep " 8 " | wc -l`
+echo "9 days           " `grep " age " $syslog_to_process | sed "s/.*age//" | sed "s/\....days/ days/" | grep " 9 " | wc -l`
+echo "10-19 days       " `grep " age " $syslog_to_process | sed "s/.*age//" | sed "s/\....days/ days/" | grep " 1. " | wc -l`
+echo "20-29 days       " `grep " age " $syslog_to_process | sed "s/.*age//" | sed "s/\....days/ days/" | grep " 2. " | wc -l`
+echo "30-39 days       " `grep " age " $syslog_to_process | sed "s/.*age//" | sed "s/\....days/ days/" | grep " 3. " | wc -l`
+echo "40-49 days       " `grep " age " $syslog_to_process | sed "s/.*age//" | sed "s/\....days/ days/" | grep " 4. " | wc -l`
+echo "50-59 days       " `grep " age " $syslog_to_process | sed "s/.*age//" | sed "s/\....days/ days/" | grep " 5. " | wc -l`
+echo "60-69 days       " `grep " age " $syslog_to_process | sed "s/.*age//" | sed "s/\....days/ days/" | grep " 6. " | wc -l`
+echo "70-79 days       " `grep " age " $syslog_to_process | sed "s/.*age//" | sed "s/\....days/ days/" | grep " 7. " | wc -l`
+echo "80-89 days       " `grep " age " $syslog_to_process | sed "s/.*age//" | sed "s/\....days/ days/" | grep " 8. " | wc -l`
+echo "90-99 days       " `grep " age " $syslog_to_process | sed "s/.*age//" | sed "s/\....days/ days/" | grep " 9. " | wc -l`
 echo "manually expired " `grep " age " $syslog_to_process | sed "s/.*age//" | sed "s/\....days/ days/" | grep " 7... " | wc -l`
 echo "new metatiles    " `grep "new meta" $syslog_to_process | wc -l`
 
