@@ -1,0 +1,10 @@
+[Unit]
+Description=Renderd
+
+[Service]
+ExecStart=/etc/init.d/renderd start
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Type=notify
+
+[Install]
