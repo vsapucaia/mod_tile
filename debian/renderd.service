@@ -2,9 +2,10 @@
 Description=Renderd
 
 [Service]
+Type=forking
 ExecStart=/etc/init.d/renderd start
-ExecReload=/bin/kill -HUP $MAINPID
-KillMode=process
-Type=notify
+ExecReload=/etc/init.d/renderd restart
+ExecStop=/etc/init.d/renderd stop
 
 [Install]
+WantedBy=multi-user.target
