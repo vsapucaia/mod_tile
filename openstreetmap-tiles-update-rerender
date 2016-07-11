@@ -17,7 +17,7 @@ cd /home/ajtown/src/mod_tile/
 #------------------------------------------------------------------------------
 OSMOSIS_BIN=osmosis
 OSM2PGSQL_BIN=osm2pgsql
-OSM2PGSQL_OPTIONS="--tag-transform-script /home/ajtown/data/SomeoneElse-style/style.lua"
+OSM2PGSQL_OPTIONS="--tag-transform-script /home/ajtown/src/SomeoneElse-style/style.lua"
 #OSM2PGSQL_OPTIONS="--flat-nodes /path/to/flatnodes --hstore"
 
 BASE_DIR=/var/lib/mod_tile
@@ -137,8 +137,7 @@ fi
 # to the data that was originally loaded.
 # -----------------------------------------------------------------------------
 m_ok "filtering diff"
-# if ! /home/ajtown/src/regional/trim_osc.py -d gis -b -4.3185 51.4224 -0.2010 54.2596 -z $CHANGE_FILE $CHANGE_FILE 1>&2 2>> "$RUNLOG"; then
-if ! /home/ajtown/src/regional/trim_osc.py -d gis -b -5.55 51.42 1.81 54.85 -z $CHANGE_FILE $CHANGE_FILE 1>&2 2>> "$RUNLOG"; then
+if ! /home/ajtown/src/regional/trim_osc.py -d gis -b -14.17 48.85 2.12 61.27 -z $CHANGE_FILE $CHANGE_FILE 1>&2 2>> "$RUNLOG"; then
     m_error "Trim_osc error"
 fi
 
