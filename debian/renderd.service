@@ -1,5 +1,6 @@
 [Unit]
 Description=Renderd
+After=network.target auditd.service
 
 [Service]
 Type=forking
