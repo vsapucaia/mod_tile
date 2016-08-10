@@ -40,11 +40,11 @@ RUNLOG=$LOG_DIR/run.log
 # "render_expired" can optionally delete (and/or dirty) tiles above a certail
 # threshold rather than rendering them.
 # Here we expire (but don't immediately rerender) tiles between zoom levels 
-# 13 and 17 and delete between 18 and 20.
+# 13 and 18 and delete between 19 and 20.
 #------------------------------------------------------------------------------
 EXPIRY_MINZOOM=13
 EXPIRY_TOUCHFROM=13
-EXPIRY_DELETEFROM=18
+EXPIRY_DELETEFROM=19
 EXPIRY_MAXZOOM=20
 
 #*************************************************************************
