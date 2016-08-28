@@ -35,7 +35,14 @@ int recv_cmd(struct protocol * cmd, int fd,  int block) {
     memset(cmd,0,sizeof(*cmd));
     ret = recv(fd, cmd, sizeof(struct protocol_v1), block?MSG_WAITALL:MSG_DONTWAIT);
     if (ret < 1) {
-        syslog(LOG_INFO, "DEBUG: Failed to read cmd on fd %i", fd);
+      /* ------------------------------------------------------------------------------
+       * Previously there was a "Failed to read cmd on fd" debug message here, but that
+       * has been removed since it happend on every fd just before closing.
+       *
+       * For completeness "ret" was negative, 
+       * so https://github.com/openstreetmap/mod_tile/issues/77#issuecomment-50244923
+       * isn't actually the correct diagnosis.
+       * ------------------------------------------------------------------------------ */
         return -1;
     } else if (ret < sizeof(struct protocol_v1)) {
         syslog(LOG_INFO, "DEBUG: Read incomplete cmd on fd %i", fd);
