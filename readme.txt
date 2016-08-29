@@ -3,6 +3,9 @@ mod_tile
 A program to efficiently render and serve map tiles for
 www.openstreetmap.org map using Apache and Mapnik.
 
+This branch is designed for testing zoom changes.
+
+
 Requirements
 ============
 OSM map data imported into PostgreSQL using osm2pgsql
