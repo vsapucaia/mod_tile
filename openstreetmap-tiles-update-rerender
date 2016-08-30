@@ -43,7 +43,7 @@ RUNLOG=$LOG_DIR/run.log
 # and 28.
 #------------------------------------------------------------------------------
 EXPIRY_MINZOOM=13
-EXPIRY_TOUCHFROM=21
+EXPIRY_TOUCHFROM=29
 EXPIRY_DELETEFROM=19
 EXPIRY_MAXZOOM=28
 
