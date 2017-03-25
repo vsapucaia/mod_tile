@@ -30,15 +30,15 @@ if [ "$1" = "config" ]; then
 	echo 'z3.draw LINE1'
 	echo 'z3.type GAUGE'
 	echo 'z3.min 0'
-    echo 'z4.label z15-16'
+    echo 'z4.label z15-17'
 	echo 'z4.draw LINE1'
 	echo 'z4.type GAUGE'
 	echo 'z4.min 0'
-    echo 'z5.label z17-18'
+    echo 'z5.label z18-20'
 	echo 'z5.draw LINE1'
 	echo 'z5.type GAUGE'
 	echo 'z5.min 0'
-    echo 'z6.label z19-20'
+    echo 'z6.label z21-24'
 	echo 'z6.draw LINE1'
 	echo 'z6.type GAUGE'
 	echo 'z6.min 0'
@@ -77,9 +77,17 @@ z17Duration=`expr match "$data" '.*DurationTileBufferReadZoom17: \([0-9]*\)'`
 z18Duration=`expr match "$data" '.*DurationTileBufferReadZoom18: \([0-9]*\)'`
 z19Duration=`expr match "$data" '.*DurationTileBufferReadZoom19: \([0-9]*\)'`
 z20Duration=`expr match "$data" '.*DurationTileBufferReadZoom20: \([0-9]*\)'`
+z21Duration=`expr match "$data" '.*DurationTileBufferReadZoom21: \([0-9]*\)'`
+z22Duration=`expr match "$data" '.*DurationTileBufferReadZoom22: \([0-9]*\)'`
+z23Duration=`expr match "$data" '.*DurationTileBufferReadZoom23: \([0-9]*\)'`
+z24Duration=`expr match "$data" '.*DurationTileBufferReadZoom24: \([0-9]*\)'`
 
 if [ -z "$z19Duration" ]; then z19Duration=0; fi;
 if [ -z "$z20Duration" ]; then z20Duration=0; fi;
+if [ -z "$z21Duration" ]; then z21Duration=0; fi;
+if [ -z "$z22Duration" ]; then z22Duration=0; fi;
+if [ -z "$z23Duration" ]; then z23Duration=0; fi;
+if [ -z "$z24Duration" ]; then z24Duration=0; fi;
 
 z0NoServed=`expr match "$data" '.*NoTileBufferReadZoom00: \([0-9]*\)'`
 z1NoServed=`expr match "$data" '.*NoTileBufferReadZoom01: \([0-9]*\)'`
@@ -102,9 +110,17 @@ z17NoServed=`expr match "$data" '.*NoTileBufferReadZoom17: \([0-9]*\)'`
 z18NoServed=`expr match "$data" '.*NoTileBufferReadZoom18: \([0-9]*\)'`
 z19NoServed=`expr match "$data" '.*NoTileBufferReadZoom19: \([0-9]*\)'`
 z20NoServed=`expr match "$data" '.*NoTileBufferReadZoom20: \([0-9]*\)'`
+z21NoServed=`expr match "$data" '.*NoTileBufferReadZoom21: \([0-9]*\)'`
+z22NoServed=`expr match "$data" '.*NoTileBufferReadZoom22: \([0-9]*\)'`
+z23NoServed=`expr match "$data" '.*NoTileBufferReadZoom23: \([0-9]*\)'`
+z24NoServed=`expr match "$data" '.*NoTileBufferReadZoom24: \([0-9]*\)'`
 
 if [ -z "$z19NoServed" ]; then z19NoServed=0; fi;
 if [ -z "$z20NoServed" ]; then z20NoServed=0; fi;
+if [ -z "$z21NoServed" ]; then z21NoServed=0; fi;
+if [ -z "$z22NoServed" ]; then z22NoServed=0; fi;
+if [ -z "$z23NoServed" ]; then z23NoServed=0; fi;
+if [ -z "$z24NoServed" ]; then z24NoServed=0; fi;
 
 zl1Duration=`expr $z0Duration + $z1Duration + $z2Duration + $z3Duration + $z4Duration + $z5Duration + $z6Duration + $z7Duration + $z8Duration`
 zl1NoServed=`expr $z0NoServed + $z1NoServed + $z2NoServed + $z3NoServed + $z4NoServed + $z5NoServed + $z6NoServed + $z7NoServed + $z8NoServed`
@@ -112,12 +128,12 @@ zl2Duration=`expr $z9Duration + $z10Duration + $z11Duration + $z12Duration`
 zl2NoServed=`expr $z9NoServed + $z10NoServed + $z11NoServed + $z12NoServed`
 zl3Duration=`expr $z13Duration + $z14Duration`
 zl3NoServed=`expr $z13NoServed + $z14NoServed`
-zl4Duration=`expr $z15Duration + $z16Duration`
-zl4NoServed=`expr $z15NoServed + $z16NoServed`
-zl5Duration=`expr $z17Duration + $z18Duration`
-zl5NoServed=`expr $z17NoServed + $z18NoServed`
-zl6Duration=`expr $z19Duration + $z20Duration`
-zl6NoServed=`expr $z19NoServed + $z20NoServed`
+zl4Duration=`expr $z15Duration + $z16Duration + $z17Duration`
+zl4NoServed=`expr $z15NoServed + $z16NoServed + $z17NoServed`
+zl5Duration=`expr $z18Duration + $z19Duration + $z20Duration`
+zl5NoServed=`expr $z18NoServed + $z19NoServed + $z20NoServed`
+zl6Duration=`expr $z21Duration + $z22Duration + $z23Duration + $z24Duration`
+zl6NoServed=`expr $z21NoServed + $z22NoServed + $z23NoServed + $z24NoServed`
 
 zl1DurationPrev=`sed -e '/^DurationTileBufferReadZoomGroup1/!d' -e 's/.*: //' -e q $MUNIN_STATEFILE`
 zl1NoServedPrev=`sed -e '/^NoTileBufferReadZoomGroup1/!d' -e 's/.*: //' -e q $MUNIN_STATEFILE`

@@ -33,24 +33,24 @@ if [ "$1" = "config" ]; then
 	echo 'zoomtime3.cdef zoomtime3,1000,/'
 	echo 'zoomtime3.draw STACK'
 	echo 'zoomtime3.info Time for Metatiles for z13 - z14'
-	echo 'zoomtime4.label zoom z15 - z16'
+	echo 'zoomtime4.label zoom z15 - z17'
 	echo 'zoomtime4.type DERIVE'
 	echo 'zoomtime4.min 0'
 	echo 'zoomtime4.cdef zoomtime4,1000,/'
 	echo 'zoomtime4.draw STACK'
-	echo 'zoomtime4.info Time for Metatiles for z15 - z16'
-	echo 'zoomtime5.label zoom z17 - z18'
+	echo 'zoomtime4.info Time for Metatiles for z15 - z17'
+	echo 'zoomtime5.label zoom z18 - z20'
 	echo 'zoomtime5.type DERIVE'
 	echo 'zoomtime5.min 0'
 	echo 'zoomtime5.cdef zoomtime5,1000,/'
 	echo 'zoomtime5.draw STACK'
-	echo 'zoomtime5.info Time for Metatiles for z17 - z18'
-	echo 'zoomtime6.label zoom z19 - z20'
+	echo 'zoomtime5.info Time for Metatiles for z18 - z20'
+	echo 'zoomtime6.label zoom z21 - z24'
 	echo 'zoomtime6.type DERIVE'
 	echo 'zoomtime6.min 0'
 	echo 'zoomtime6.cdef zoomtime6,1000,/'
 	echo 'zoomtime6.draw STACK'
-	echo 'zoomtime6.info Time for Metatiles for z19 - z20'
+	echo 'zoomtime6.info Time for Metatiles for z21 - z24'
 
 
 	exit 0
@@ -77,14 +77,22 @@ req17=`sed -e '/^TimeRenderedZoom17/!d' -e 's/.*: //' -e q /var/run/renderd/rend
 req18=`sed -e '/^TimeRenderedZoom18/!d' -e 's/.*: //' -e q /var/run/renderd/renderd.stats`
 req19=`sed -e '/^TimeRenderedZoom19/!d' -e 's/.*: //' -e q /var/run/renderd/renderd.stats`
 req20=`sed -e '/^TimeRenderedZoom20/!d' -e 's/.*: //' -e q /var/run/renderd/renderd.stats`
+req21=`sed -e '/^TimeRenderedZoom21/!d' -e 's/.*: //' -e q /var/run/renderd/renderd.stats`
+req22=`sed -e '/^TimeRenderedZoom22/!d' -e 's/.*: //' -e q /var/run/renderd/renderd.stats`
+req23=`sed -e '/^TimeRenderedZoom23/!d' -e 's/.*: //' -e q /var/run/renderd/renderd.stats`
+req24=`sed -e '/^TimeRenderedZoom24/!d' -e 's/.*: //' -e q /var/run/renderd/renderd.stats`
 
 if [ -z "$req19" ]; then req19=0; fi
 if [ -z "$req20" ]; then req20=0; fi
+if [ -z "$req21" ]; then req21=0; fi
+if [ -z "$req22" ]; then req22=0; fi
+if [ -z "$req23" ]; then req23=0; fi
+if [ -z "$req24" ]; then req24=0; fi
 
 
 echo "zoomtime1.value " `expr $req0 + $req1 + + $req2 + $req3 + $req4 + $req5 + $req6 + $req7 + $req8`
 echo "zoomtime2.value " `expr $req9 + $req10 + + $req11 + $req12`
 echo "zoomtime3.value " `expr $req13 + $req14`
-echo "zoomtime4.value " `expr $req15 + $req16`
-echo "zoomtime5.value " `expr $req17 + $req18`
-echo "zoomtime6.value " `expr $req19 + $req20`
+echo "zoomtime4.value " `expr $req15 + $req16 + $req17`
+echo "zoomtime5.value " `expr $req18 + $req19 + $req20`
+echo "zoomtime6.value " `expr $req21 + $req22 + $req23 + $req24`

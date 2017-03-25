@@ -26,15 +26,15 @@ if [ "$1" = "config" ]; then
 	echo 'z3.draw STACK'
 	echo 'z3.type DERIVE'
 	echo 'z3.min 0'
-	echo 'z4.label z15-16'
+	echo 'z4.label z15-17'
 	echo 'z4.draw STACK'
 	echo 'z4.type DERIVE'
 	echo 'z4.min 0'
-	echo 'z5.label z17-18'
+	echo 'z5.label z18-20'
 	echo 'z5.draw STACK'
 	echo 'z5.type DERIVE'
 	echo 'z5.min 0'
-    echo 'z6.label z19-20'
+	echo 'z6.label z21-24'
 	echo 'z6.draw STACK'
 	echo 'z6.type DERIVE'
 	echo 'z6.min 0'
@@ -65,6 +65,10 @@ resp_17=`expr match "$data" '.*NoRespZoom17: \([0-9]*\)'`
 resp_18=`expr match "$data" '.*NoRespZoom18: \([0-9]*\)'`
 resp_19=`expr match "$data" '.*NoRespZoom19: \([0-9]*\)'`
 resp_20=`expr match "$data" '.*NoRespZoom20: \([0-9]*\)'`
+resp_21=`expr match "$data" '.*NoRespZoom21: \([0-9]*\)'`
+resp_22=`expr match "$data" '.*NoRespZoom22: \([0-9]*\)'`
+resp_23=`expr match "$data" '.*NoRespZoom23: \([0-9]*\)'`
+resp_24=`expr match "$data" '.*NoRespZoom24: \([0-9]*\)'`
 
 if [ -z "$resp_19" ]; then
     resp_19=0;
@@ -72,12 +76,24 @@ fi
 if [ -z "$resp_20" ]; then
     resp_20=0;
 fi
+if [ -z "$resp_21" ]; then
+    resp_21=0;
+fi
+if [ -z "$resp_22" ]; then
+    resp_22=0;
+fi
+if [ -z "$resp_23" ]; then
+    resp_23=0;
+fi
+if [ -z "$resp_24" ]; then
+    resp_24=0;
+fi
 
 
 
 echo "z1.value " `expr $resp_0 + $resp_1 + + $resp_2 + $resp_3 + $resp_4 + $resp_5 + $resp_6 + $resp_7 + $resp_8`
 echo "z2.value " `expr $resp_9 + $resp_10 + + $resp_11 + $resp_12`
 echo "z3.value " `expr $resp_13 + $resp_14`
-echo "z4.value " `expr $resp_15 + $resp_16`
-echo "z5.value " `expr $resp_17 + $resp_18`
-echo "z6.value " `expr $resp_19 + $resp_20`
+echo "z4.value " `expr $resp_15 + $resp_16 + $resp_17`
+echo "z5.value " `expr $resp_18 + $resp_19 + $resp_20`
+echo "z6.value " `expr $resp_21 + $resp_22 + $resp_23 + $resp_24`
