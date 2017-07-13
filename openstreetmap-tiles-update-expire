@@ -17,7 +17,7 @@ cd /home/renderaccount/src/mod_tile/
 #------------------------------------------------------------------------------
 OSMOSIS_BIN=osmosis
 OSM2PGSQL_BIN=osm2pgsql
-OSM2PGSQL_OPTIONS="--tag-transform-script /home/renderaccount/src/SomeoneElse-style/style.lua"
+OSM2PGSQL_OPTIONS=""
 #OSM2PGSQL_OPTIONS="--flat-nodes /path/to/flatnodes --hstore"
 
 BASE_DIR=/var/lib/mod_tile
