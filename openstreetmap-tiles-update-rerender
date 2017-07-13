@@ -8,7 +8,7 @@ set -e
 # Change the actual location to wherever installed locally.
 #------------------------------------------------------------------------------
 export PATH=.:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-cd /home/ajtown/src/mod_tile/
+cd /home/renderaccount/src/mod_tile/
 
 #------------------------------------------------------------------------------
 # The OSM2PGSQL_OPTIONS here only need setting if a tag transform script is
@@ -17,7 +17,7 @@ cd /home/ajtown/src/mod_tile/
 #------------------------------------------------------------------------------
 OSMOSIS_BIN=osmosis
 OSM2PGSQL_BIN=osm2pgsql
-OSM2PGSQL_OPTIONS="--tag-transform-script /home/ajtown/src/SomeoneElse-style/style.lua"
+OSM2PGSQL_OPTIONS="--tag-transform-script /home/renderaccount/src/SomeoneElse-style/style.lua"
 #OSM2PGSQL_OPTIONS="--flat-nodes /path/to/flatnodes --hstore"
 
 BASE_DIR=/var/lib/mod_tile
@@ -40,7 +40,7 @@ RUNLOG=$LOG_DIR/run.log
 # "render_expired" can optionally delete (and/or dirty) tiles above a certail
 # threshold rather than rendering them.
 # Here we rerender tiles between zoom levels 13 and 18 and delete between 19
-# and 20, and pretend that zooms 21 through 28 do not exist.
+# and 19, and pretend that zooms 20 through 28 do not exist.
 #
 # The value of EXPIRY_MAXZOOM here is limited by the way that render_expired
 # uses memory - it tries to create an array of "all metatiles" and only
@@ -48,13 +48,13 @@ RUNLOG=$LOG_DIR/run.log
 # higher ones.  If it fails render_expired will output
 # "not enough memory available." to stderr - the point at which it does that
 # will depend on the resources available on a particular system.
-# A separate mechanism (e.g. weekly deletion) must handle zoom levels between
+# A separate mechanism (e.g. periodic deletion) must handle zoom levels between
 # EXPIRY_MAXZOOM below and the MAX_ZOOM set in render_config.h
 #------------------------------------------------------------------------------
 EXPIRY_MINZOOM=13
 EXPIRY_TOUCHFROM=21
 EXPIRY_DELETEFROM=19
-EXPIRY_MAXZOOM=20
+EXPIRY_MAXZOOM=19
 
 #*************************************************************************
 #*************************************************************************
@@ -146,7 +146,7 @@ fi
 # to the data that was originally loaded.
 # -----------------------------------------------------------------------------
 m_ok "filtering diff"
-if ! /home/ajtown/src/regional/trim_osc.py -d gis -b -14.17 48.85 2.12 61.27 -z $CHANGE_FILE $CHANGE_FILE 1>&2 2>> "$RUNLOG"; then
+if ! /home/renderaccount/src/regional/trim_osc.py -d gis -b -14.17 48.85 2.12 61.27 -z $CHANGE_FILE $CHANGE_FILE 1>&2 2>> "$RUNLOG"; then
     m_error "Trim_osc error"
 fi
 

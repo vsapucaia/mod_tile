@@ -40,7 +40,7 @@ RUNLOG=$LOG_DIR/run.log
 # "render_expired" can optionally delete (and/or dirty) tiles above a certail
 # threshold rather than rendering them.
 # Here we expire (but don't immediately rerender) tiles between zoom levels 
-# 13 and 18 and delete between 19 and 20, and pretend that zooms 21 through
+# 13 and 18 and delete between 19 and 19, and pretend that zooms 20 through
 # 28 do not exist.
 #
 # The value of EXPIRY_MAXZOOM here is limited by the way that render_expired
@@ -49,7 +49,7 @@ RUNLOG=$LOG_DIR/run.log
 # higher ones.  If it fails render_expired will output
 # "not enough memory available." to stderr - the point at which it does that
 # will depend on the resources available on a particular system.
-# A separate mechanism (e.g. nightly deletion) must handle zoom levels between
+# A separate mechanism (e.g. periodic deletion) must handle zoom levels between
 # EXPIRY_MAXZOOM below and the MAX_ZOOM set in render_config.h
 #------------------------------------------------------------------------------
 EXPIRY_MINZOOM=13
