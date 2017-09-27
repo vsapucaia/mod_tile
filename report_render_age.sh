@@ -42,6 +42,6 @@ echo "60-69 days       " `grep " age " $syslog_to_process | sed "s/.*age//" | se
 echo "70-79 days       " `grep " age " $syslog_to_process | sed "s/.*age//" | sed "s/\....days/ days/" | grep " 7. " | wc -l`
 echo "80-89 days       " `grep " age " $syslog_to_process | sed "s/.*age//" | sed "s/\....days/ days/" | grep " 8. " | wc -l`
 echo "90-99 days       " `grep " age " $syslog_to_process | sed "s/.*age//" | sed "s/\....days/ days/" | grep " 9. " | wc -l`
-echo "manually expired " `grep " age " $syslog_to_process | sed "s/.*age//" | sed "s/\....days/ days/" | grep " 7... " | wc -l`
-echo "manually expired " `grep " age " $syslog_to_process | sed "s/.*age//" | sed "s/\....days/ days/" | grep " 10... " | wc -l`
+echo "man exp 20 years " `grep " age " $syslog_to_process | sed "s/.*age//" | sed "s/\....days/ days/" | grep " 7... " | wc -l`
+echo "man exp 10k days " `grep " age " $syslog_to_process | sed "s/.*age//" | sed "s/\....days/ days/" | grep " 10... " | wc -l`
 echo "new metatiles    " `grep "new meta" $syslog_to_process | wc -l`
